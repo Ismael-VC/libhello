@@ -1,4 +1,5 @@
-all: setup shared static included precompiled dynamic optimized
+all: setup shared static included precompiled dynamic optimized fortran \
+	julia python
 
 setup:
 	@ mkdir -p bin lib build
@@ -41,5 +42,28 @@ optimized: setup
 	@ gcc -O2 -flto build/hello.o build/libhello.o -o bin/optimized_hello -Iinclude
 	@ bin/optimized_hello
 
+fortran: setup
+	@ echo -e "\e[35mUsing Fortran bindings.\e[m"
+	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+	@ gfortran -c -o build/hello_f90.o src/hello.f90 -Jbuild -Iinclude
+	@ gfortran -o bin/fortran_hello build/hello_f90.o -Llib -lhello -Jbuild
+	@ LD_LIBRARY_PATH=lib bin/fortran_hello
+
+cobol: setup
+	@ echo -e "\e[35mUsing Cobol bindings.\e[m"
+	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+	@ cobc -O2 -o bin/cobol_hello src/hello.cbl -Llib -lhello
+	@ LD_LIBRARY_PATH=lib bin/cobol_hello
+
+julia: setup
+	@ echo -e "\e[35mUsing Julia bindings.\e[m"
+	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+	@ julia src/hello.jl
+
+python: setup
+	@ echo -e "\e[35mUsing Python bindings.\e[m"
+	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+	@ python src/hello.py
+	
 clean:
 	@ rm -rf build bin lib
