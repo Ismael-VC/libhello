@@ -30,6 +30,8 @@ Using LuaJIT bindings.
 Hello, World!
 Using Rust bindings.
 Hello, World!
+Using Zig bindings.
+Hello, World!
 ```
 
 ## Tree
