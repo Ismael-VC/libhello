@@ -3,7 +3,7 @@
 ## Build
 
 ```bash
-➜  libhello git:(main) make          
+➜  libhello git:(main) ✗ make
 Using shared library.
 Hello, World!
 Uisng static library.
@@ -16,6 +16,20 @@ Using dynamic linking.
 Hello, World!
 Using link time optimization.
 Hello, World!
+Using Fortran bindings.
+Hello, World!
+Using Julia bindings.
+Hello, World!
+Using Python bindings.
+Hello, World!
+Using R bindings.
+Hello, World!
+Using C++ bindings.
+Hello, World!
+Using LuaJIT bindings.
+Hello, World!
+Using Rust bindings.
+Hello, World!
 ```
 
 ## Tree
@@ -23,29 +37,30 @@ Hello, World!
 ```bash
 ➜  libhello git:(main) ✗ tree
 .
-├── bin
-│   ├── dynamic_hello
-│   ├── included_hello
-│   ├── optimized_hello
-│   ├── precompiled_hello
-│   ├── shared_hello
-│   └── static_hello
-├── build
-│   ├── hello.o
-│   ├── libhello.h.gch
-│   └── libhello.o
 ├── include
 │   └── libhello.h
-├── lib
-│   ├── libhello.a
-│   └── libhello.so
 ├── makefile
 ├── README.md
 └── src
     ├── dynamic_hello.c
     ├── hello.c
+    ├── hello.cbl
+    ├── hello.cpp
+    ├── hello.f90
+    ├── hello.jl
+    ├── hello.lisp
+    ├── hello.lua
+    ├── hello.py
+    ├── hello.R
+    ├── hello.zig
     ├── included_hello.c
-    └── libhello.c
+    ├── libhello.c
+    └── rust_hello
+        ├── build.rs
+        ├── Cargo.lock
+        ├── Cargo.toml
+        └── src
+            └── main.rs
 
-6 directories, 18 files
+5 directories, 20 files
 ```

@@ -84,7 +84,7 @@ zig: setup libhello
 
 rust: setup libhello
 	@ echo -e "\e[35mUsing Rust bindings.\e[m"
-	@ cd src/rust_hello && cargo build --release
+	@ cd src/rust_hello && cargo build --quiet --release
 	@ LD_LIBRARY_PATH=lib src/rust_hello/target/release/rust_hello
 
 lisp: setup libhello
