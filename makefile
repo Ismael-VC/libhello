@@ -1,5 +1,5 @@
 all: shared static included precompiled dynamic optimized fortran \
-	julia python r cpp luajit rust zig
+	julia python r cpp luajit rust zig ruby ada
 	@ # cobol zig lisp
 
 setup:
@@ -78,8 +78,8 @@ luajit: setup libhello
 
 zig: setup libhello
 	@ echo -e "\e[35mUsing Zig bindings.\e[m"
-	@ zig build-obj src/hello.zig -Llib -lhello -lc -femit-bin=build/zig_hello.o
-	@ zig build-exe build/zig_hello.o -Llib -lhello -lc -femit-bin=bin/zig_hello
+	@ zig build-obj src/hello.zig -Llib -lhello -lc -femit-bin=build/zig_hello.o > /dev/null 2>&1
+	@ zig build-exe build/zig_hello.o -Llib -lhello -lc -femit-bin=bin/zig_hello > /dev/null 2>&1
 	@ LD_LIBRARY_PATH=lib bin/zig_hello
 
 rust: setup libhello
@@ -90,6 +90,19 @@ rust: setup libhello
 lisp: setup libhello
 	@ echo -e "\e[35mUsing Lisp bindings.\e[m"
 	@ clisp src/hello.lisp
-		
+
+ruby: setup libhello
+	@ echo -e "\e[35mUsing Ruby bindings.\e[m"
+	@ ruby src/hello.rb
+
+ada: setup libhello
+	@ echo -e "\e[35mUsing Ada bindings.\e[m"
+	@ gnatmake -q -c -Iinclude -o build/hello.o src/hello.adb
+	@ mv hello.ali hello.o libhello.ali libhello.o build
+	@ gnatbind -x build/hello.ali
+	@ gnatlink build/hello.ali -Llib -lhello -o bin/ada_hello
+	@ LD_LIBRARY_PATH=lib bin/ada_hello
+
+
 clean:
 	@ rm -rf build bin lib src/rust_hello/target
