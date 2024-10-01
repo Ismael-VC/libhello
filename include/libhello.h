@@ -1,7 +1,11 @@
-// hello.h
-#ifndef HELLO_H
-#define HELLO_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void hello(); // Function prototype
 
-#endif // HELLO_H
+#ifdef __cplusplus
+}
+#endif

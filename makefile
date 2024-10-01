@@ -1,12 +1,15 @@
-all: setup shared static included precompiled dynamic optimized fortran \
-	julia python
+all: shared static included precompiled dynamic optimized fortran \
+	julia python r cpp luajit rust
+	@ # cobol zig
 
 setup:
 	@ mkdir -p bin lib build
-	
-shared: setup
-	@ echo -e "\e[35mUsing shared library.\e[m"
+
+libhello:
 	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+
+shared: setup libhello
+	@ echo -e "\e[35mUsing shared library.\e[m"
 	@ gcc -o bin/shared_hello src/hello.c -Llib -lhello -Iinclude
 	@ LD_LIBRARY_PATH=lib bin/shared_hello
 
@@ -29,9 +32,8 @@ precompiled: setup
 	@ gcc -o bin/precompiled_hello src/hello.c build/libhello.o -include include/libhello.h -Iinclude
 	@ bin/precompiled_hello
 
-dynamic: setup
+dynamic: setup libhello
 	@ echo -e "\e[35mUsing dynamic linking.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
 	@ gcc -o bin/dynamic_hello src/dynamic_hello.c -ldl -Iinclude
 	@ bin/dynamic_hello
 
@@ -42,28 +44,52 @@ optimized: setup
 	@ gcc -O2 -flto build/hello.o build/libhello.o -o bin/optimized_hello -Iinclude
 	@ bin/optimized_hello
 
-fortran: setup
+fortran: setup libhello
 	@ echo -e "\e[35mUsing Fortran bindings.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
 	@ gfortran -c -o build/hello_f90.o src/hello.f90 -Jbuild -Iinclude
 	@ gfortran -o bin/fortran_hello build/hello_f90.o -Llib -lhello -Jbuild
 	@ LD_LIBRARY_PATH=lib bin/fortran_hello
 
-cobol: setup
+cobol: setup libhello
 	@ echo -e "\e[35mUsing Cobol bindings.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
 	@ cobc -O2 -o bin/cobol_hello src/hello.cbl -Llib -lhello
 	@ LD_LIBRARY_PATH=lib bin/cobol_hello
 
-julia: setup
+julia: setup libhello
 	@ echo -e "\e[35mUsing Julia bindings.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
 	@ julia src/hello.jl
 
-python: setup
+python: setup libhello
 	@ echo -e "\e[35mUsing Python bindings.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
 	@ python src/hello.py
-	
+
+r: setup libhello
+	@ echo -e "\e[35mUsing R bindings.\e[m"
+	@ Rscript src/hello.R
+
+cpp: setup libhello
+	@ echo -e "\e[35mUsing C++ bindings.\e[m"
+	@ g++ -o bin/cpp_hello src/hello.cpp -Llib -lhello -Iinclude
+	@ LD_LIBRARY_PATH=lib bin/cpp_hello
+
+luajit: setup libhello
+	@ echo -e "\e[35mUsing LuaJIT bindings.\e[m"
+	@ luajit src/hello.lua
+
+zig: setup libhello
+	@ echo -e "\e[35mUsing Zig bindings.\e[m"
+	@ zig build-obj src/hello.zig -Llib -lhello -femit-bin=build/zig_hello.o
+	@ zig build-exe build/zig_hello.o -Llib -lhello -femit-bin=bin/zig_hello
+	@ LD_LIBRARY_PATH=lib bin/zig_hello
+
+rust: setup libhello
+	@ echo -e "\e[35mUsing Rust bindings.\e[m"
+	@ cd src/rust_hello && cargo build --release
+	@ LD_LIBRARY_PATH=lib src/rust_hello/target/release/rust_hello
+
+lisp: setup libhello
+	@ echo -e "\e[35mUsing Lisp bindings.\e[m"
+	@ clisp src/hello.lisp
+		
 clean:
 	@ rm -rf build bin lib
