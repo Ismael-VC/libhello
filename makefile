@@ -1,42 +1,45 @@
 all: setup shared static included precompiled dynamic optimized
 
 setup:
-	@ mkdir -p bin lib
+	@ mkdir -p bin lib build
 	
 shared: setup
 	@ echo -e "\e[35mUsing shared library.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c
-	@ gcc -o bin/shared_hello src/hello.c -Llib -lhello
+	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+	@ gcc -o bin/shared_hello src/hello.c -Llib -lhello -Iinclude
 	@ LD_LIBRARY_PATH=lib bin/shared_hello
 
 static: setup
 	@ echo -e "\e[35mUisng static library.\e[m"
-	@ gcc -c -o lib/libhello.o src/libhello.c
-	@ ar rcs lib/libhello.a lib/libhello.o
-	@ gcc -o bin/static_hello src/hello.c lib/libhello.a
+	@ gcc -c -o build/libhello.o src/libhello.c -Iinclude
+	@ ar rcs lib/libhello.a build/libhello.o
+	@ gcc -o bin/static_hello src/hello.c lib/libhello.a -Iinclude
 	@ bin/static_hello
 
 included: setup
 	@ echo -e "\e[35mUsing included library.\e[m"
-	@ gcc -o bin/included_hello src/included_hello.c
+	@ gcc -o bin/included_hello src/included_hello.c -Iinclude
 	@ bin/included_hello
 
 precompiled: setup
 	@ echo -e "\e[35mUsing precompiled header and code.\e[m"
-	@ gcc -x c-header src/libhello.h -o lib/libhello.h.gch
-	@ gcc -c src/libhello.c -o lib/libhello.o
-	@ gcc -o bin/precompiled_hello src/hello.c lib/libhello.o -include src/libhello.h
+	@ gcc -x c-header include/libhello.h -o build/libhello.h.gch
+	@ gcc -c src/libhello.c -o build/libhello.o -Iinclude
+	@ gcc -o bin/precompiled_hello src/hello.c build/libhello.o -include include/libhello.h -Iinclude
 	@ bin/precompiled_hello
 
 dynamic: setup
 	@ echo -e "\e[35mUsing dynamic linking.\e[m"
-	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c
-	@ gcc -o bin/dynamic_hello src/dynamic_hello.c -ldl
+	@ gcc -fPIC -shared -o lib/libhello.so src/libhello.c -Iinclude
+	@ gcc -o bin/dynamic_hello src/dynamic_hello.c -ldl -Iinclude
 	@ bin/dynamic_hello
 
 optimized: setup
 	@ echo -e "\e[35mUsing link time optimization.\e[m"
-	@ gcc -c -O2 -flto src/libhello.c -o lib/libhello.o
-	@ gcc -c -O2 -flto src/hello.c -o lib/hello.o
-	@ gcc -O2 -flto lib/hello.o lib/libhello.o -o bin/optimized_hello
+	@ gcc -c -O2 -flto src/libhello.c -o build/libhello.o -Iinclude
+	@ gcc -c -O2 -flto src/hello.c -o build/hello.o -Iinclude
+	@ gcc -O2 -flto build/hello.o build/libhello.o -o bin/optimized_hello -Iinclude
 	@ bin/optimized_hello
+
+clean:
+	@ rm -rf build bin lib
