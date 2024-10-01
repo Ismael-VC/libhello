@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-void hello(); // Function prototype
+void hello();
 
 #ifdef __cplusplus
 }

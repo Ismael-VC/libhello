@@ -1,4 +1,3 @@
-// main_dynamic.c
 #include <stdio.h>
 #include "libhello.h"
 

@@ -1,6 +1,6 @@
 all: shared static included precompiled dynamic optimized fortran \
-	julia python r cpp luajit rust
-	@ # cobol zig
+	julia python r cpp luajit rust zig
+	@ # cobol zig lisp
 
 setup:
 	@ mkdir -p bin lib build
@@ -78,8 +78,8 @@ luajit: setup libhello
 
 zig: setup libhello
 	@ echo -e "\e[35mUsing Zig bindings.\e[m"
-	@ zig build-obj src/hello.zig -Llib -lhello -femit-bin=build/zig_hello.o
-	@ zig build-exe build/zig_hello.o -Llib -lhello -femit-bin=bin/zig_hello
+	@ zig build-obj src/hello.zig -Llib -lhello -lc -femit-bin=build/zig_hello.o
+	@ zig build-exe build/zig_hello.o -Llib -lhello -lc -femit-bin=bin/zig_hello
 	@ LD_LIBRARY_PATH=lib bin/zig_hello
 
 rust: setup libhello

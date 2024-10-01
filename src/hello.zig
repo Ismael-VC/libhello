@@ -1,6 +1,6 @@
 const std = @import("std");
 
-extern fn hello() callconv(.C) void;
+extern "c" fn hello() void;
 
 pub fn main() void {
     hello();
