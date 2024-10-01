@@ -92,4 +92,4 @@ lisp: setup libhello
 	@ clisp src/hello.lisp
 		
 clean:
-	@ rm -rf build bin lib
+	@ rm -rf build bin lib src/rust_hello/target
