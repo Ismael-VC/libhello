@@ -2,7 +2,7 @@
 
 ## Build
 
-```
+```bash
 ➜  libhello git:(main) make          
 Using shared library.
 Hello, World!
@@ -20,8 +20,8 @@ Hello, World!
 
 ## Tree
 
-```sh
-➜  libhello git:(main) tree
+```bash
+➜  libhello git:(main) ✗ tree
 .
 ├── bin
 │   ├── dynamic_hello
@@ -30,19 +30,22 @@ Hello, World!
 │   ├── precompiled_hello
 │   ├── shared_hello
 │   └── static_hello
-├── lib
+├── build
 │   ├── hello.o
-│   ├── libhello.a
 │   ├── libhello.h.gch
-│   ├── libhello.o
+│   └── libhello.o
+├── include
+│   └── libhello.h
+├── lib
+│   ├── libhello.a
 │   └── libhello.so
 ├── makefile
+├── README.md
 └── src
     ├── dynamic_hello.c
     ├── hello.c
     ├── included_hello.c
-    ├── libhello.c
-    └── libhello.h
+    └── libhello.c
 
-4 directories, 17 files
+6 directories, 18 files
 ```
