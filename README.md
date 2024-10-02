@@ -32,6 +32,14 @@ Using Rust bindings.
 Hello, World!
 Using Zig bindings.
 Hello, World!
+Using Ruby bindings.
+Hello, World!
+Using Ada bindings.
+Hello, World!
+Using Go bindings.
+Hello, World!
+Using GForth bindings.
+Hello, World!
 ```
 
 ## Tree
@@ -45,17 +53,24 @@ Hello, World!
 ├── README.md
 └── src
     ├── dynamic_hello.c
+    ├── hello.adb
+    ├── hello.bas
+    ├── hello.bi
     ├── hello.c
     ├── hello.cbl
     ├── hello.cpp
     ├── hello.f90
+    ├── hello.fth
+    ├── hello.go
     ├── hello.jl
     ├── hello.lisp
     ├── hello.lua
     ├── hello.py
     ├── hello.R
+    ├── hello.rb
     ├── hello.zig
     ├── included_hello.c
+    ├── libhello.ads
     ├── libhello.c
     └── rust_hello
         ├── build.rs
@@ -64,5 +79,5 @@ Hello, World!
         └── src
             └── main.rs
 
-5 directories, 20 files
+5 directories, 27 files
 ```

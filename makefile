@@ -113,7 +113,7 @@ freebasic: setup libhello
 	@ fbc -o bin/freebasic_hello src/hello.bas -p hello -l lib
 	@ LD_LIBRARY_PATH=lib bin/freebasic_hello
 
-gforth:
+gforth: setup libhello
 	@ echo -e "\e[35mUsing GForth bindings.\e[m"
 	@ C_INCLUDE_PATH=include LIBRARY_PATH=lib LD_LIBRARY_PATH=lib gforth src/hello.fth
 
