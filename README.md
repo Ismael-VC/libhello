@@ -1,5 +1,13 @@
 # libhello
 
+## To do
+- Callisto
+- Clisp
+- Cobol
+- FreeBASIC
+- Factor
+- Mirth
+
 ## Build
 
 ```bash
