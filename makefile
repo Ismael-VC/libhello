@@ -103,6 +103,10 @@ ada: setup libhello
 	@ gnatlink build/hello.ali -Llib -lhello -o bin/ada_hello
 	@ LD_LIBRARY_PATH=lib bin/ada_hello
 
+go: setup libhello
+	@ echo -e "\e[35mUsing Go bindings.\e[m"
+	@ go build -o bin/go_hello src/hello.go
+	@ LD_LIBRARY_PATH=lib bin/go_hello
 
 clean:
 	@ rm -rf build bin lib src/rust_hello/target
