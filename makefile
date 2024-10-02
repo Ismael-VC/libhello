@@ -1,6 +1,6 @@
 all: shared static included precompiled dynamic optimized fortran \
 	julia python r cpp luajit rust zig ruby ada
-	@ # cobol zig lisp
+	@ # cobol lisp freebasic gforth
 
 setup:
 	@ mkdir -p bin lib build
@@ -103,6 +103,10 @@ ada: setup libhello
 	@ gnatlink build/hello.ali -Llib -lhello -o bin/ada_hello
 	@ LD_LIBRARY_PATH=lib bin/ada_hello
 
+freebasic: setup libhello
+	@ echo -e "\e[35mUsing FreeBASIC bindings.\e[m"
+	@ fbc -o bin/freebasic_hello src/hello.bas -p hello -l lib
+	@ LD_LIBRARY_PATH=lib bin/freebasic_hello
 
 clean:
 	@ rm -rf build bin lib src/rust_hello/target
