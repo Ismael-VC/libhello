@@ -1,6 +1,6 @@
 all: shared static included precompiled dynamic optimized fortran \
-	julia python r cpp luajit rust zig ruby ada go
-	@ # cobol lisp freebasic gforth
+	julia python r cpp luajit rust zig ruby ada go gforth
+	@ # cobol clisp freebasic
 
 setup:
 	@ mkdir -p bin lib build
@@ -87,8 +87,8 @@ rust: setup libhello
 	@ cd src/rust_hello && cargo build --quiet --release
 	@ LD_LIBRARY_PATH=lib src/rust_hello/target/release/rust_hello
 
-lisp: setup libhello
-	@ echo -e "\e[35mUsing Lisp bindings.\e[m"
+clisp: setup libhello
+	@ echo -e "\e[35mUsing CLisp bindings.\e[m"
 	@ clisp src/hello.lisp
 
 ruby: setup libhello
@@ -112,6 +112,10 @@ freebasic: setup libhello
 	@ echo -e "\e[35mUsing FreeBASIC bindings.\e[m"
 	@ fbc -o bin/freebasic_hello src/hello.bas -p hello -l lib
 	@ LD_LIBRARY_PATH=lib bin/freebasic_hello
+
+gforth:
+	@ echo -e "\e[35mUsing GForth bindings.\e[m"
+	@ C_INCLUDE_PATH=include LIBRARY_PATH=lib LD_LIBRARY_PATH=lib gforth src/hello.fth
 
 clean:
 	@ rm -rf build bin lib src/rust_hello/target
