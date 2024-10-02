@@ -7,6 +7,7 @@
 - FreeBASIC
 - Factor
 - Mirth
+- PForth
 
 ## Build
 
