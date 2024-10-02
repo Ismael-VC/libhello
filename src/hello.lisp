@@ -1,4 +1,5 @@
-;; hello.lisp
+(ql:quickload "cffi")
+
 (defpackage :hello
   (:use :cl))
 
