@@ -1,5 +1,5 @@
 all: shared static included precompiled dynamic optimized fortran \
-	julia python r cpp luajit rust zig ruby ada
+	julia python r cpp luajit rust zig ruby ada go
 	@ # cobol zig lisp
 
 setup:
