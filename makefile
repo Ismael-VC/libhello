@@ -1,5 +1,5 @@
 all: shared static included precompiled dynamic optimized fortran \
-	julia python r cpp luajit rust zig ruby ada
+	julia python r cpp luajit rust zig ruby ada go
 	@ # cobol lisp freebasic gforth
 
 setup:
@@ -102,6 +102,11 @@ ada: setup libhello
 	@ gnatbind -x build/hello.ali
 	@ gnatlink build/hello.ali -Llib -lhello -o bin/ada_hello
 	@ LD_LIBRARY_PATH=lib bin/ada_hello
+
+go: setup libhello
+	@ echo -e "\e[35mUsing Go bindings.\e[m"
+	@ go build -o bin/go_hello src/hello.go
+	@ LD_LIBRARY_PATH=lib bin/go_hello
 
 freebasic: setup libhello
 	@ echo -e "\e[35mUsing FreeBASIC bindings.\e[m"
