@@ -1,4 +1,3 @@
-#lang fb
 
 #Include "hello.bi"
 
