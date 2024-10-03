@@ -1,18 +1,14 @@
-(ql:quickload "cffi")
+(load "etc/quicklisp/setup.lisp")
+
+(ql:quickload "cffi" :silent t)
 
 (defpackage :hello
-  (:use :cl))
+  (:use :cl :cffi))
 
 (in-package :hello)
 
-(defvar *libhello* (cffi:load-foreign-library "lib/libhello.so"))
+(cffi:load-foreign-library "lib/libhello.so")
 
-(defcfun ("hello" c-hello) void)
+(defcfun ("hello" hello) :void)
 
-(defun hello ()
-  (c-hello))
-
-(defun main ()
-  (hello))
-
-(main)
+(hello)

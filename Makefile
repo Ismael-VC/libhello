@@ -1,6 +1,6 @@
 all: shared static included precompiled dynamic optimized fortran \
-	julia python r cpp luajit rust zig ruby ada go gforth
-	@ # cobol clisp freebasic
+	julia python r cpp luajit rust zig ruby ada go gforth clisp
+	@ # cobol freebasic
 
 setup:
 	@ mkdir -p bin lib build
