@@ -1,6 +1,6 @@
 all: shared static included precompiled dynamic optimized fortran freebasic go \
 	julia python r cpp luajit zig rust ruby ada gforth clisp       
-	# cobol
+	@ # cobol
 
 setup:
 	@ mkdir -p bin lib build
@@ -114,9 +114,11 @@ go: libhello.so
 
 freebasic: libhello.a
 	@ echo -e "\e[35m\nUsing FreeBASIC bindings.\e[m"
-	@ time -p sh -c "cp lib/libhello.a liblibhello.a && \
+	@ time -p sh -c "cp lib/libhello.a liblibhello.a && cp src/hello.c hello.c.bak && \
 		fbc -a lib/libhello.a src/hello.bas -x bin/freebasic_hello && \
-		rm liblibhello.a && bin/freebasic_hello"
+		rm liblibhello.a && \
+		mv hello.c.bak src/hello.c && \
+		bin/freebasic_hello"
 
 gforth: libhello.so
 	@ echo -e "\e[35m\nUsing GForth bindings.\e[m"
