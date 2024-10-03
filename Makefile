@@ -1,5 +1,5 @@
 all: shared static included precompiled dynamic optimized fortran freebasic go \
-	julia python r cpp luajit zig rust ruby ada gforth clisp       
+	julia python r cpp luajit zig rust ruby ada gforth clisp d
 	@ # cobol
 
 setup:
@@ -123,6 +123,12 @@ freebasic: libhello.a
 gforth: libhello.so
 	@ echo -e "\e[35m\nUsing GForth bindings.\e[m"
 	@ time -p sh -c "C_INCLUDE_PATH=include LIBRARY_PATH=lib LD_LIBRARY_PATH=lib gforth src/hello.fth"
+
+d: libhello
+	@ echo -e "\e[35mUsing D bindings.\e[m"
+	@ ldc2 -c src/hello.d --of=build/d_hello.o
+	@ ldc2 build/d_hello.o --of=bin/d_hello -L -Llib -L -lhello
+	@ LD_LIBRARY_PATH=lib bin/d_hello
 
 clean:
 	@ rm -rf build bin lib src/rust_hello/target
